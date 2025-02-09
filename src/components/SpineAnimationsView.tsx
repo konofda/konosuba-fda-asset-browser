@@ -21,12 +21,7 @@ export const SpineAnimationsView: React.FC<SpineAnimationsViewProps> = ({ assets
   const containerRef = useRef<HTMLDivElement>(null);
 
   const txtFiles = useMemo(() => {
-    return assets
-      .filter(path => 
-        path.endsWith('.txt') && 
-        !path.endsWith('/.txt')
-      )
-      .sort();
+    return assets.filter(path => path.endsWith('.txt') && !path.endsWith('/.txt')).sort();
   }, [assets]);
 
   useEffect(() => {
@@ -48,11 +43,11 @@ export const SpineAnimationsView: React.FC<SpineAnimationsViewProps> = ({ assets
       playerRef.current.dispose?.();
       playerRef.current = null;
 
-      containerRef.current.innerHTML='';
+      containerRef.current.innerHTML = '';
     }
 
     const skeletonUrl = getFullAssetUrl(selectedPath);
-    
+
     const createPlayer = (withAnimation = true) => {
       const config = {
         error: (e: Error) => {
@@ -66,13 +61,13 @@ export const SpineAnimationsView: React.FC<SpineAnimationsViewProps> = ({ assets
         jsonUrl: skeletonUrl,
         atlasUrl: skeletonUrl.replace('.txt', '.atlas'),
         premultipliedAlpha: true,
-        backgroundColor: "#00000000",
+        backgroundColor: '#00000000',
         alpha: true,
         showControls: true,
-        ...(withAnimation && { animation: "Wait1Loop" })
+        ...(withAnimation && { animation: 'Wait1Loop' }),
       };
 
-      playerRef.current = new window.spine.SpinePlayer(containerRef.current, config);
+      playerRef.current = new window.spine.SpinePlayer(containerRef.current as any, config);
     };
 
     // Start with the full config including animation
@@ -84,23 +79,23 @@ export const SpineAnimationsView: React.FC<SpineAnimationsViewProps> = ({ assets
         playerRef.current.dispose?.();
         playerRef.current = null;
       }
-      
-      containerRef.current.innerHTML='';
-    }
+
+      containerRef.current!.innerHTML = '';
+    };
 
     return dispose;
   }, [selectedPath]); // Re-run when selected path changes
 
   return (
-    <div className="flex-1 flex min-h-0">
+    <div className='flex-1 flex min-h-0'>
       {/* File List */}
-      <div className="w-[280px] bg-white/10 border-r border-white/20 flex flex-col">
-        <div className="flex-none p-2 text-sm font-medium text-purple-900 border-b border-white/10">
+      <div className='w-[280px] bg-white/10 border-r border-white/20 flex flex-col'>
+        <div className='flex-none p-2 text-sm font-medium text-purple-900 border-b border-white/10'>
           Spine Animation Files
         </div>
-        <div className="flex-1 overflow-y-auto custom-scrollbar">
-          <div className="p-2 space-y-0.5">
-            {txtFiles.map((path) => (
+        <div className='flex-1 overflow-y-auto custom-scrollbar'>
+          <div className='p-2 space-y-0.5'>
+            {txtFiles.map(path => (
               <ListItemButton
                 key={path}
                 icon={FileText}
@@ -114,11 +109,11 @@ export const SpineAnimationsView: React.FC<SpineAnimationsViewProps> = ({ assets
       </div>
 
       {/* Preview */}
-      <div className="flex-1 bg-white/5">
+      <div className='flex-1 bg-white/5'>
         {selectedPath ? (
-          <div ref={containerRef} className="w-full h-full" />
+          <div ref={containerRef} className='w-full h-full' />
         ) : (
-          <div className="h-full flex items-center justify-center text-purple-800/60">
+          <div className='h-full flex items-center justify-center text-purple-800/60'>
             Select a file to preview its animation
           </div>
         )}

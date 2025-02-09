@@ -7,14 +7,16 @@ interface StoryStillsViewProps {
 }
 
 export const StoryStillsView: React.FC<StoryStillsViewProps> = ({ assets }) => {
-  const stillImages = assets.filter(path => 
-    path.includes('Story/Prefab/Sprite/Still') && getFileType(path) === 'image'
+  const stillImages = assets.filter(
+    path => path.includes('Story/Prefab/Sprite/Still') && getFileType(path) === 'image'
   );
 
-  const assetGroups = [{
-    title: 'Story Stills',
-    assets: stillImages
-  }];
+  const assetGroups = [
+    {
+      title: 'Story Stills',
+      assets: stillImages,
+    },
+  ];
 
   return <GalleryView assetGroups={assetGroups} />;
 };

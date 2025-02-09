@@ -7,14 +7,19 @@ interface BattleBackgroundsViewProps {
 }
 
 export const BattleBackgroundsView: React.FC<BattleBackgroundsViewProps> = ({ assets }) => {
-  const battleBGImages = assets.filter(path => 
-    path.includes('BattleBG/Prefabs') && path.includes('bg_battle') && getFileType(path) === 'image'
+  const battleBGImages = assets.filter(
+    path =>
+      path.includes('BattleBG/Prefabs') &&
+      path.includes('bg_battle') &&
+      getFileType(path) === 'image'
   );
 
-  const assetGroups = [{
-    title: 'Battle Backgrounds',
-    assets: battleBGImages
-  }];
+  const assetGroups = [
+    {
+      title: 'Battle Backgrounds',
+      assets: battleBGImages,
+    },
+  ];
 
   return <GalleryView assetGroups={assetGroups} />;
 };
