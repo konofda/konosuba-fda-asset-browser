@@ -142,6 +142,7 @@ export const SearchView: React.FC<SearchViewProps> = ({ assets }) => {
 
   const clearSearch = () => {
     updateSearchParam("");
+    performSearch("");
   };
 
   const showSearchButton = searchTerm.trim() && searchTerm !== currentQuery;
