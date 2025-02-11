@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
 import { Search, X } from "lucide-react";
+import { useCallback, useState } from "react";
 
 import { getFileType } from "../utils/assetUtils";
 import { GalleryView } from "./GalleryView";
@@ -53,36 +53,16 @@ const EXAMPLE_QUERIES = EXAMPLE_QUERIES_STR.split("\n")
   .map((s) => s.trim())
   .filter(Boolean);
 
-const useSearchParam = (initialSearch = "") => {
-  const [searchTerm, setSearchTerm] = useState(() => {
-    // Initialize from URL immediately
-    const searchParams = new URLSearchParams(window.location.search);
-    const queryParam = searchParams.get("q");
-    console.log("🏁 Initial URL search term:", queryParam);
-    return queryParam || initialSearch;
-  });
-
-  const updateSearchTerm = (query: string) => {
-    setSearchTerm(query);
-    const newUrl = new URL(window.location.href);
-
-    if (query.trim()) {
-      newUrl.searchParams.set("q", query);
-      console.log("🔄 Updating URL with search:", query);
-    } else {
-      newUrl.searchParams.delete("q");
-      console.log("🧹 Clearing search from URL");
-    }
-
-    window.history.pushState({}, "", newUrl);
-  };
-
-  return {
-    searchTerm,
-    updateSearchTerm,
-  };
-};
-
+/**
+ * SearchView component for filtering and displaying image assets.
+ * Search is triggered only on:
+ * - Initial page load (from URL params)
+ * - Enter key press
+ * - Search button click
+ * - Example query click
+ *
+ * @param assets - Array of asset paths to search through
+ */
 export const SearchView: React.FC<SearchViewProps> = ({ assets }) => {
   const { searchTerm, updateSearchTerm: updateSearchParam } = useSearchParam();
   const [searchResults, setSearchResults] = useState<string[]>([]);
@@ -137,12 +117,6 @@ export const SearchView: React.FC<SearchViewProps> = ({ assets }) => {
     },
     [assets]
   );
-
-  // Perform search whenever searchTerm changes
-  useEffect(() => {
-    console.log("📡 Search term changed to:", searchTerm);
-    performSearch(searchTerm);
-  }, [searchTerm, performSearch]);
 
   const handleSearch = () => {
     performSearch(searchTerm);
@@ -237,4 +211,34 @@ export const SearchView: React.FC<SearchViewProps> = ({ assets }) => {
       </div>
     </div>
   );
+};
+
+const useSearchParam = (initialSearch = "") => {
+  const [searchTerm, setSearchTerm] = useState(() => {
+    // Initialize from URL immediately
+    const searchParams = new URLSearchParams(window.location.search);
+    const queryParam = searchParams.get("q");
+    console.log("🏁 Initial URL search term:", queryParam);
+    return queryParam || initialSearch;
+  });
+
+  const updateSearchTerm = (query: string) => {
+    setSearchTerm(query);
+    const newUrl = new URL(window.location.href);
+
+    if (query.trim()) {
+      newUrl.searchParams.set("q", query);
+      console.log("🔄 Updating URL with search:", query);
+    } else {
+      newUrl.searchParams.delete("q");
+      console.log("🧹 Clearing search from URL");
+    }
+
+    window.history.pushState({}, "", newUrl);
+  };
+
+  return {
+    searchTerm,
+    updateSearchTerm,
+  };
 };
