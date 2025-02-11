@@ -1,5 +1,5 @@
 import { Search, X } from "lucide-react";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 
 import { getFileType } from "../utils/assetUtils";
 import { GalleryView } from "./GalleryView";
@@ -117,6 +117,12 @@ export const SearchView: React.FC<SearchViewProps> = ({ assets }) => {
     },
     [assets]
   );
+
+  // Add effect for initial search on page load
+  useEffect(() => {
+    console.log("🚀 Performing initial search");
+    performSearch(searchTerm);
+  }, []);  // Empty deps array means this only runs once on mount
 
   const handleSearch = () => {
     performSearch(searchTerm);
