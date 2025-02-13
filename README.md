@@ -1,7 +1,5 @@
 # Konosuba FD/A Asset Browser
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/3b019f98-183b-4906-937e-3457ee3b2f68/deploy-status)](https://app.netlify.com/sites/konosuba-fda/deploys)
-
 A web interface for browsing assets from [Konosuba: Fantastic Days](https://konosubafd.jp).
 This project provides an organized way to explore game assets by parsing and displaying content from the following repositories:
 
